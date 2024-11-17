@@ -39,53 +39,51 @@ object InteractEvent : Listener {
 
 
             val hasreward = ConfigManager.playerdata.player["${player.uniqueId}"]
-            val headsSize = hasreward?.heads?.size ?: 0
+            val headsSize = hasreward?.heads?.size ?: 1
 
-            CrystalRewards.instance.logger.info(hasreward?.heads?.size.toString())
+            // CrystalRewards.instance.logger.info(hasreward?.heads?.size.toString())
 
             val armorstandsSize = hasreward?.armorstands?.size ?: 0
 
-            CrystalRewards.instance.logger.info(hasreward?.armorstands?.size.toString())
+            // CrystalRewards.instance.logger.info(hasreward?.armorstands?.size.toString())
 
             val founded = headsSize + armorstandsSize
 
-// Fix the Loop to add to many...
+            // Fix the Loop to add to many...
             if (hasreward?.armorstands != null) {
                 hasreward?.armorstands?.forEach { armorstand ->
-                    (
-                            if (armorstand == entityid) {
-                                return player.sendMessage(mm.deserialize(ConfigManager.settings.rewarderrormessage.toString()))
-                            } else {
+                    if (armorstand == entityid) {
 
-                                // Add Econemy add here!
-                                player.sendMessage(
-                                    mm.deserialize(
-                                        ConfigManager.settings.rewardsuccesmessage.toString()
-                                            .replace(
-                                                "%allrewards%", ConfigManager.settings.allRewards.toString()
+                        player.sendMessage(mm.deserialize(ConfigManager.settings.rewarderrormessage.toString()))
+                    } else {
 
-                                            ).replace("%hasamount%", founded.toString())
-                                    )
-                                )
+                        // Add econemy here
 
-                                val playerData = ConfigManager.playerdata.player["${player.uniqueId}"]
-
-                                val updatedArmorstands = playerData?.armorstands?.toMutableList() ?: mutableListOf()
-
-                                updatedArmorstands.add(entityid)
-
-                                val updatedPlayerObject = playerData?.copy(
-                                    armorstands = updatedArmorstands
-                                ) ?: PlayerObject(
-                                    armorstands = listOf(entityid)
-                                )
-
-                                ConfigManager.playerdata.player["${player.uniqueId}"] = updatedPlayerObject
-
-                                ConfigManager.save()
-                            }
+                        player.sendMessage(
+                            mm.deserialize(
+                                ConfigManager.settings.rewardsuccesmessage.toString()
+                                    .replace("%allrewards%", ConfigManager.settings.allRewards.toString())
+                                    .replace("%hasamount%", founded.toString())
                             )
+                        )
+                        val playerData = ConfigManager.playerdata.player["${player.uniqueId}"]
+
+                        val updatedArmorstands = playerData?.armorstands?.toMutableList() ?: mutableListOf()
+
+                        updatedArmorstands.add(entityid)
+
+                        val updatedPlayerObject = playerData?.copy(
+                            armorstands = updatedArmorstands
+                        ) ?: PlayerObject(
+                            armorstands = listOf(entityid)
+                        )
+
+                        ConfigManager.playerdata.player["${player.uniqueId}"] = updatedPlayerObject
+
+                        ConfigManager.save()
+                    }
                 }
+
             } else {
 
                 // Add Econemy add here!
