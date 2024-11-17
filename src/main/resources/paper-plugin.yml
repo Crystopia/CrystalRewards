@@ -1,0 +1,8 @@
+name: CrystalRewards
+version: '1.0.0'
+main: net.crystopia.crystalRewards.CrystalRewards
+api-version: '1.21'
+prefix: CrystalRewards
+authors: [ xyzjesper ]
+description: Reward Manager for our Server at the Lobby
+website: https://ww.crystopia.net
