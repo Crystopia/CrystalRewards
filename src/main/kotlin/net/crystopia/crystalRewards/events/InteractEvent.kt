@@ -14,6 +14,7 @@ import org.bukkit.event.player.PlayerInteractAtEntityEvent
 import org.bukkit.event.player.PlayerInteractEvent
 import org.bukkit.persistence.PersistentDataContainer
 import org.bukkit.persistence.PersistentDataType
+import java.util.*
 
 object InteractEvent : Listener {
 
@@ -21,7 +22,7 @@ object InteractEvent : Listener {
 
 
     @EventHandler
-    fun onInteract(event: PlayerInteractAtEntityEvent) {
+    fun onPlayerInteractAtEntityEvent(event: PlayerInteractAtEntityEvent) {
 
         val player = event.player
         val config = ConfigManager.settings
@@ -39,50 +40,46 @@ object InteractEvent : Listener {
 
 
             val hasreward = ConfigManager.playerdata.player["${player.uniqueId}"]
-            val headsSize = hasreward?.heads?.size ?: 1
-
-            // CrystalRewards.instance.logger.info(hasreward?.heads?.size.toString())
+            val headsSize = hasreward?.heads?.size ?: 0
 
             val armorstandsSize = hasreward?.armorstands?.size ?: 0
 
-            // CrystalRewards.instance.logger.info(hasreward?.armorstands?.size.toString())
+            val founded = headsSize + armorstandsSize + 1
 
-            val founded = headsSize + armorstandsSize
-
-            // Fix the Loop to add to many...
             if (hasreward?.armorstands != null) {
-                hasreward?.armorstands?.forEach { armorstand ->
-                    if (armorstand == entityid) {
+                if (hasreward?.armorstands?.contains(entityid) == true) {
+                    player.sendMessage(mm.deserialize(ConfigManager.settings.rewarderrormessage.toString()))
+                } else {
 
-                        player.sendMessage(mm.deserialize(ConfigManager.settings.rewarderrormessage.toString()))
-                    } else {
 
-                        // Add econemy here
+                    // Add Economy Message
 
-                        player.sendMessage(
-                            mm.deserialize(
-                                ConfigManager.settings.rewardsuccesmessage.toString()
-                                    .replace("%allrewards%", ConfigManager.settings.allRewards.toString())
-                                    .replace("%hasamount%", founded.toString())
-                            )
+
+                    player.sendMessage(
+                        mm.deserialize(
+                            ConfigManager.settings.rewardsuccesmessage.toString()
+                                .replace("%allrewards%", ConfigManager.settings.allRewards.toString())
+                                .replace("%hasamount%", founded.toString())
                         )
-                        val playerData = ConfigManager.playerdata.player["${player.uniqueId}"]
+                    )
 
-                        val updatedArmorstands = playerData?.armorstands?.toMutableList() ?: mutableListOf()
+                    val playerData = ConfigManager.playerdata.player["${player.uniqueId}"]
 
-                        updatedArmorstands.add(entityid)
+                    val updatedArmorstands = playerData?.armorstands?.toMutableList() ?: mutableListOf()
 
-                        val updatedPlayerObject = playerData?.copy(
-                            armorstands = updatedArmorstands
-                        ) ?: PlayerObject(
-                            armorstands = listOf(entityid)
-                        )
+                    updatedArmorstands.add(entityid)
 
-                        ConfigManager.playerdata.player["${player.uniqueId}"] = updatedPlayerObject
+                    val updatedPlayerObject = playerData?.copy(
+                        armorstands = updatedArmorstands
+                    ) ?: PlayerObject(
+                        armorstands = listOf(entityid)
+                    )
 
-                        ConfigManager.save()
-                    }
+                    ConfigManager.playerdata.player["${player.uniqueId}"] = updatedPlayerObject
+
+                    ConfigManager.save()
                 }
+
 
             } else {
 
@@ -118,7 +115,7 @@ object InteractEvent : Listener {
     }
 
     @EventHandler
-    fun onInteract(event: PlayerInteractEvent) {
+    fun onPlayerInteractEvent(event: PlayerInteractEvent) {
 
         val player = event.player
 
@@ -127,11 +124,11 @@ object InteractEvent : Listener {
             val state: TileState = event.clickedBlock!!.state as TileState
             val container: PersistentDataContainer = state.persistentDataContainer
 
-            val key = NamespacedKey(CrystalRewards.instance, "crystals")
-            val uuid = NamespacedKey(CrystalRewards.instance, "uuid")
+            val key = NamespacedKey(CrystalRewards.instance.name.lowercase(Locale.getDefault()), "crystals")
+            val uuid = NamespacedKey(CrystalRewards.instance.name.lowercase(Locale.getDefault()), "uuid")
 
             val haskey = container.has(key, PersistentDataType.INTEGER)
-            if (!haskey) return
+            if (!haskey) CrystalRewards.instance.logger.info(haskey.toString())
 
             val getdata = container.get(key, PersistentDataType.INTEGER)
             player.sendMessage(getdata.toString())

@@ -48,8 +48,8 @@ class CrystalRewardsCommand {
                         } else {
                             val meta = item.itemMeta
 
-                            val key = NamespacedKey(CrystalRewards.instance, "crystals")
-                            val uuid = NamespacedKey(CrystalRewards.instance, "uuid")
+                            val key = NamespacedKey(CrystalRewards.instance.name.lowercase(Locale.getDefault()), "crystals")
+                            val uuid = NamespacedKey(CrystalRewards.instance.name.lowercase(Locale.getDefault()), "uuid")
                             meta.persistentDataContainer[key, PersistentDataType.INTEGER] = args.args[0] as Int
                             meta.persistentDataContainer[uuid, PersistentDataType.STRING] = UUID.randomUUID().toString()
 
