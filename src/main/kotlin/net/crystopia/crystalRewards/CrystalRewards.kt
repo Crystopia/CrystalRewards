@@ -3,7 +3,8 @@ package net.crystopia.crystalRewards
 import dev.jorel.commandapi.CommandAPI
 import dev.jorel.commandapi.CommandAPIBukkitConfig
 import net.crystopia.crystalRewards.commands.CrystalRewardsCommand
-import net.crystopia.crystalRewards.events.InteractEvent
+import net.crystopia.crystalRewards.events.PlayerInteractAtEntityEvent
+import net.crystopia.crystalRewards.events.PlayerInteractEvent
 import net.crystopia.crystalRewards.utils.config.ConfigManager
 import org.bukkit.plugin.java.JavaPlugin
 
@@ -37,7 +38,8 @@ class CrystalRewards : JavaPlugin() {
     }
 
     fun loadEvents() {
-        server.pluginManager.registerEvents(InteractEvent, this)
+        server.pluginManager.registerEvents(PlayerInteractEvent, this)
+        server.pluginManager.registerEvents(PlayerInteractAtEntityEvent, this)
         logger.info("Loaded Events")
     }
 
