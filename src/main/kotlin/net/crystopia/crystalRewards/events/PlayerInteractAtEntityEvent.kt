@@ -1,5 +1,7 @@
 ﻿package net.crystopia.crystalRewards.events
 
+import me.TechsCode.UltraEconomy.objects.Currency
+import net.crystopia.crystalRewards.CrystalRewards
 import net.crystopia.crystalRewards.utils.config.ConfigManager
 import net.crystopia.crystalRewards.utils.config.PlayerObject
 import net.kyori.adventure.text.minimessage.MiniMessage
@@ -41,7 +43,14 @@ object PlayerInteractAtEntityEvent : Listener {
                     return
                 } else {
 
-                    // Add Economy Message
+                    val getreward: Double = ConfigManager.settings.rewardsarmostands.get(entityid)?.reward as Double
+
+                    val currency: Currency? =
+                        CrystalRewards.instance.ueapi?.currencies?.name(ConfigManager.settings.currency)?.get()
+
+                    val account = CrystalRewards.instance.ueapi?.accounts?.uuid(player.uniqueId)?.get()
+
+                    account?.addBalance(currency, getreward)
 
                     player.sendMessage(
                         mm.deserialize(
@@ -72,7 +81,22 @@ object PlayerInteractAtEntityEvent : Listener {
 
             } else {
 
-                // Add Econemy add here!
+                val getreward: Double = ConfigManager.settings.rewardsarmostands.get(entityid)?.reward as Double
+
+                val currency: Currency? =
+                    CrystalRewards.instance.ueapi?.currencies?.name(ConfigManager.settings.currency)?.get()
+
+                val account = CrystalRewards.instance.ueapi?.accounts?.uuid(player.uniqueId)?.get()
+
+                account?.addBalance(currency, getreward)
+
+                player.sendMessage(
+                    mm.deserialize(
+                        ConfigManager.settings.rewardsuccesmessage.toString()
+                            .replace("%allrewards%", ConfigManager.settings.allRewards.toString())
+                            .replace("%hasamount%", founded.toString())
+                    )
+                )
 
                 player.sendMessage(
                     mm.deserialize(

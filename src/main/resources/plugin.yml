@@ -6,3 +6,4 @@ prefix: CrystalRewards
 authors: [ xyzjesper ]
 description: Reward Manager for our Server at the Lobby
 website: https://ww.crystopia.net
+depend: [UltraEconomy]

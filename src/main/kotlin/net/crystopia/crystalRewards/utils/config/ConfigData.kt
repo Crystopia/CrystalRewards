@@ -6,6 +6,7 @@ import kotlinx.serialization.Serializable
 data class ConfigData(
 
     var allRewards: Int = 0,
+    var currency : String = "crystals",
     var rewardsuccesmessage: String? = "\n ċ <color:#bf6bff>You have found a secret!</color> <color:#adf5ff>Keep collecting and you'll get more Crystals.</color> <color:#9effb8>You have now found <color:#ffd587><i>%hasamount%/%allrewards%</i></color> secrets.</color> \n",
     var rewarderrormessage: String? = "\n ‰ <red>You have already found this <color:#ffc45e>reward</color>!</red><color:#63ffd6> Keep searching to find more.</color> \n",
     var rewardsarmostands: MutableMap<String, RewardData> = mutableMapOf(),
@@ -14,7 +15,7 @@ data class ConfigData(
 
 @Serializable
 data class RewardData(
-    val reward: Int
+    val reward: Double
 )
 
 

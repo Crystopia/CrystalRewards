@@ -5,6 +5,8 @@ plugins {
     id("com.gradleup.shadow") version "8.3.5"
     id("xyz.jpenilla.run-paper") version "2.3.1"
     kotlin("plugin.serialization") version "2.0.21"
+    id("io.papermc.paperweight.userdev") version "1.7.5"
+    id("com.modrinth.minotaur") version "2.+"
 }
 
 group = "net.crystopia"
@@ -19,10 +21,11 @@ repositories {
         name = "sonatype"
     }
     maven(url = "https://repo.codemc.org/repository/maven-public/")
+    maven("https://repo.techscode.com/repository/techscode-apis/")
 }
 
 dependencies {
-    compileOnly("io.papermc.paper:paper-api:1.21.1-R0.1-SNAPSHOT")
+    paperweight.paperDevBundle("1.21.1-R0.1-SNAPSHOT")
     implementation("org.jetbrains.kotlin:kotlin-stdlib-jdk8")
     implementation("net.kyori:adventure-api:4.17.0")
     implementation("dev.jorel:commandapi-bukkit-kotlin:9.6.0")
@@ -30,6 +33,7 @@ dependencies {
     compileOnly("dev.jorel:commandapi-bukkit-core:9.6.0")
     implementation("dev.jorel:commandapi-bukkit-shade-mojang-mapped:9.6.0")
     implementation("org.jetbrains.kotlinx:kotlinx-serialization-json:1.7.3")
+    compileOnly("me.TechsCode:UltraEconomyAPI:1.1.2")
 }
 
 val targetJavaVersion = 21
@@ -47,7 +51,7 @@ tasks.processResources {
     val props = mapOf("version" to version)
     inputs.properties(props)
     filteringCharset = "UTF-8"
-    filesMatching("paper-plugin.yml") {
+    filesMatching("plugin.yml") {
         expand(props)
     }
 }
@@ -56,3 +60,22 @@ tasks {
         minecraftVersion("1.21.1")
     }
 }
+
+// build.gradle
+modrinth {
+    token = System.getenv("MODRINTH_TOKEN") // Remember to have the MODRINTH_TOKEN environment variable set or else this will fail - just make sure it stays private!
+    projectId = "my-project" // This can be the project ID or the slug. Either will work!
+    versionNumber = "1.0.0" // You don't need to set this manually. Will fail if Modrinth has this version already
+    versionType = "release" // This is the default -- can also be `beta` or `alpha`
+    uploadFile = "build/libs/CrystalRewards-1.0.0-all.jar" // With Loom, this MUST be set to `remapJar` instead of `jar`!
+    gameVersions = ["1.21.1"] // Must be an array, even with only one version
+    loaders = ["fabric"] // Must also be an array - no need to specify this if you're using Loom or ForgeGradle
+    dependencies { // A special DSL for creating dependencies
+        // scope.type
+        // The scope can be `required`, `optional`, `incompatible`, or `embedded`
+        // The type can either be `project` or `version`
+        required.project "fabric-api" // Creates a new required dependency on Fabric API
+        optional.version "sodium", "mc1.19.3-0.4.8" // Creates a new optional dependency on this specific version of Sodium
+    }
+}
+

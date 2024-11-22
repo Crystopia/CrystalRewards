@@ -2,7 +2,7 @@
 
 import dev.jorel.commandapi.kotlindsl.anyExecutor
 import dev.jorel.commandapi.kotlindsl.commandTree
-import dev.jorel.commandapi.kotlindsl.integerArgument
+import dev.jorel.commandapi.kotlindsl.doubleArgument
 import dev.jorel.commandapi.kotlindsl.literalArgument
 import net.crystopia.crystalRewards.CrystalRewards
 import net.crystopia.crystalRewards.utils.config.ConfigManager
@@ -22,7 +22,7 @@ class CrystalRewardsCommand {
 
     val command = commandTree("crystalrewards") {
         literalArgument("create") {
-            integerArgument("reward-amount") {
+            doubleArgument("reward-amount") {
                 anyExecutor() { sender, args ->
                     val sender = sender as Player
 
@@ -31,9 +31,9 @@ class CrystalRewardsCommand {
                         val target = sender.getTargetEntity(5)
 
                         if (block?.type == Material.PLAYER_HEAD) {
-                            val crystals = NamespacedKey(
+                            val rewardkey = NamespacedKey(
                                 CrystalRewards.instance.name.lowercase(Locale.getDefault()),
-                                "crystals"
+                                "reward"
                             )
                             val uuidKey = NamespacedKey(
                                 CrystalRewards.instance.name.lowercase(Locale.getDefault()),
@@ -43,7 +43,7 @@ class CrystalRewardsCommand {
                             val state: TileState = block.state as TileState
                             val container: PersistentDataContainer = state.persistentDataContainer
 
-                            container.set(crystals, PersistentDataType.INTEGER, args.args[0] as Int)
+                            container.set(rewardkey, PersistentDataType.DOUBLE, args.args[0] as Double)
                             container.set(uuidKey, PersistentDataType.STRING, UUID.randomUUID().toString())
 
                             state.update()
@@ -57,7 +57,7 @@ class CrystalRewardsCommand {
                             ConfigManager.settings.allRewards += 1
 
                             ConfigManager.settings.rewardsarmostands["${entity.uniqueId}"] =
-                                RewardData(args.args[0] as Int)
+                                RewardData(args.args[0] as Double)
 
                             ConfigManager.save()
 

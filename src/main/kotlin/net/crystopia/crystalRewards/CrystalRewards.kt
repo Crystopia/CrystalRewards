@@ -2,6 +2,8 @@ package net.crystopia.crystalRewards
 
 import dev.jorel.commandapi.CommandAPI
 import dev.jorel.commandapi.CommandAPIBukkitConfig
+import me.TechsCode.UltraEconomy.UltraEconomy
+import me.TechsCode.UltraEconomy.UltraEconomyAPI
 import net.crystopia.crystalRewards.commands.CrystalRewardsCommand
 import net.crystopia.crystalRewards.events.PlayerInteractAtEntityEvent
 import net.crystopia.crystalRewards.events.PlayerInteractEvent
@@ -18,10 +20,15 @@ class CrystalRewards : JavaPlugin() {
         instance = this
     }
 
+    var ueapi: UltraEconomyAPI? = UltraEconomy.getAPI()
+
+
     override fun onEnable() {
         logger.info("CrystalRewards enabled")
         CommandAPI.onLoad(CommandAPIBukkitConfig(this).silentLogs(true))
         CommandAPI.onEnable();
+
+        ueapi = UltraEconomy.getAPI()
 
         val settings = ConfigManager.settings
         val playerdata = ConfigManager.playerdata
@@ -34,8 +41,8 @@ class CrystalRewards : JavaPlugin() {
         logger.info("CrystalRewards disabled")
 
         CommandAPI.onDisable();
-
     }
+
 
     fun loadEvents() {
         server.pluginManager.registerEvents(PlayerInteractEvent, this)

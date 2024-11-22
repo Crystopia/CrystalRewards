@@ -1,5 +1,6 @@
 ﻿package net.crystopia.crystalRewards.events
 
+import me.TechsCode.UltraEconomy.objects.Currency
 import net.crystopia.crystalRewards.CrystalRewards
 import net.crystopia.crystalRewards.utils.config.ConfigManager
 import net.crystopia.crystalRewards.utils.config.PlayerObject
@@ -24,7 +25,7 @@ object PlayerInteractEvent : Listener {
 
         if (event.action.isLeftClick) return
 
-        if (event.getHand() != EquipmentSlot.HAND) return
+        if (event.hand != EquipmentSlot.HAND) return
 
         val player = event.player
 
@@ -43,13 +44,13 @@ object PlayerInteractEvent : Listener {
             val state: TileState = event.clickedBlock!!.state as TileState
             val container: PersistentDataContainer = state.persistentDataContainer
 
-            val crystals = NamespacedKey(CrystalRewards.instance.name.lowercase(Locale.getDefault()), "crystals")
+            val rewardkey = NamespacedKey(CrystalRewards.instance.name.lowercase(Locale.getDefault()), "reward")
             val uuid = NamespacedKey(CrystalRewards.instance.name.lowercase(Locale.getDefault()), "uuid")
 
-            if (!container.has(crystals, PersistentDataType.INTEGER)) return
+            if (!container.has(rewardkey, PersistentDataType.DOUBLE)) return
 
             val getuuid = container.get(uuid, PersistentDataType.STRING)
-            val getcrystals = container.get(crystals, PersistentDataType.INTEGER)
+            val reward: Double = container.get(rewardkey, PersistentDataType.DOUBLE) as Double
 
             val hasreward = ConfigManager.playerdata.player["${player.uniqueId}"]
             val headsSize = hasreward?.heads?.size ?: 0
@@ -63,7 +64,13 @@ object PlayerInteractEvent : Listener {
             }
 
 
-            // ECONEMY
+            val currency: Currency? =
+                CrystalRewards.instance.ueapi?.currencies?.name(ConfigManager.settings.currency)?.get()
+
+            val account = CrystalRewards.instance.ueapi?.accounts?.uuid(player.uniqueId)?.get()
+
+            account?.addBalance(currency, reward)
+
 
 
             player.sendMessage(
