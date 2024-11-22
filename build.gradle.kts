@@ -68,14 +68,8 @@ modrinth {
     versionNumber = "1.0.0" // You don't need to set this manually. Will fail if Modrinth has this version already
     versionType = "release" // This is the default -- can also be `beta` or `alpha`
     uploadFile = "build/libs/CrystalRewards-1.0.0-all.jar" // With Loom, this MUST be set to `remapJar` instead of `jar`!
-    gameVersions = ["1.21.1"] // Must be an array, even with only one version
-    loaders = ["fabric"] // Must also be an array - no need to specify this if you're using Loom or ForgeGradle
-    dependencies { // A special DSL for creating dependencies
-        // scope.type
-        // The scope can be `required`, `optional`, `incompatible`, or `embedded`
-        // The type can either be `project` or `version`
-        required.project "fabric-api" // Creates a new required dependency on Fabric API
-        optional.version "sodium", "mc1.19.3-0.4.8" // Creates a new optional dependency on this specific version of Sodium
-    }
+    gameVersions = listOf("1.21.1") // Must be an array, even with only one version
+    loaders = listOf("paper") // Must also be an array - no need to specify this if you're using Loom or ForgeGradle
+
 }
 
