@@ -61,7 +61,7 @@ class CrystalRewardsCommand {
 
                             ConfigManager.save()
 
-                            sender.sendMessage("Armor-stand reward wurde hinzugefügt mit dem Reward " + args.args[0])
+                            sender.sendMessage("Armor-stand reward added with reward amount: " + args.args[0])
                         } else {
                             sender.sendMessage("You need to look at a armor-stand or Player Head and run the Command!")
                         }
