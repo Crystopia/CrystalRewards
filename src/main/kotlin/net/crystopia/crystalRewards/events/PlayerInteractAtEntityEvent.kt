@@ -1,6 +1,5 @@
 ﻿package net.crystopia.crystalRewards.events
 
-import me.TechsCode.UltraEconomy.objects.Currency
 import net.crystopia.crystalRewards.CrystalRewards
 import net.crystopia.crystalRewards.utils.config.ConfigManager
 import net.crystopia.crystalRewards.utils.config.PlayerObject
@@ -45,12 +44,10 @@ object PlayerInteractAtEntityEvent : Listener {
 
                     val getreward: Double = ConfigManager.settings.rewardsarmostands.get(entityid)?.reward as Double
 
-                    val currency: Currency? =
-                        CrystalRewards.instance.ueapi?.currencies?.name(ConfigManager.settings.currency)?.get()
 
-                    val account = CrystalRewards.instance.ueapi?.accounts?.uuid(player.uniqueId)?.get()
-
-                    account?.addBalance(currency, getreward)
+                    CrystalRewards.instance.econix!!.addBalance(
+                        player.uniqueId.toString(), ConfigManager.settings.currency, getreward
+                    )
 
                     player.sendMessage(
                         mm.deserialize(
@@ -83,12 +80,9 @@ object PlayerInteractAtEntityEvent : Listener {
 
                 val getreward: Double = ConfigManager.settings.rewardsarmostands.get(entityid)?.reward as Double
 
-                val currency: Currency? =
-                    CrystalRewards.instance.ueapi?.currencies?.name(ConfigManager.settings.currency)?.get()
-
-                val account = CrystalRewards.instance.ueapi?.accounts?.uuid(player.uniqueId)?.get()
-
-                account?.addBalance(currency, getreward)
+                CrystalRewards.instance.econix!!.addBalance(
+                    player.uniqueId.toString(), ConfigManager.settings.currency, getreward
+                )
 
                 player.sendMessage(
                     mm.deserialize(

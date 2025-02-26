@@ -21,7 +21,13 @@ repositories {
         name = "sonatype"
     }
     maven(url = "https://repo.codemc.org/repository/maven-public/")
-    maven("https://repo.techscode.com/repository/techscode-apis/")
+    maven {
+        url = uri("https://maven.pkg.github.com/Crystopia/Econix")
+        credentials {
+            username = findProperty("USER") as String
+            password = findProperty("TOKEN") as String
+        }
+    }
 }
 
 dependencies {
@@ -33,7 +39,8 @@ dependencies {
     compileOnly("dev.jorel:commandapi-bukkit-core:9.6.0")
     implementation("dev.jorel:commandapi-bukkit-shade-mojang-mapped:9.6.0")
     implementation("org.jetbrains.kotlinx:kotlinx-serialization-json:1.7.3")
-    compileOnly("me.TechsCode:UltraEconomyAPI:1.1.2")
+    // Econix
+    compileOnly("me.jesforge:econix:1.2.3")
 }
 
 val targetJavaVersion = 21

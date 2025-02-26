@@ -2,8 +2,8 @@ package net.crystopia.crystalRewards
 
 import dev.jorel.commandapi.CommandAPI
 import dev.jorel.commandapi.CommandAPIBukkitConfig
-import me.TechsCode.UltraEconomy.UltraEconomy
-import me.TechsCode.UltraEconomy.UltraEconomyAPI
+import me.jesforge.econix.Econix
+import me.jesforge.econix.api.EconixAPI
 import net.crystopia.crystalRewards.commands.CrystalRewardsCommand
 import net.crystopia.crystalRewards.events.PlayerInteractAtEntityEvent
 import net.crystopia.crystalRewards.events.PlayerInteractEvent
@@ -20,7 +20,7 @@ class CrystalRewards : JavaPlugin() {
         instance = this
     }
 
-    var ueapi: UltraEconomyAPI? = UltraEconomy.getAPI()
+    var econix: EconixAPI? = null
 
 
     override fun onEnable() {
@@ -28,7 +28,13 @@ class CrystalRewards : JavaPlugin() {
         CommandAPI.onLoad(CommandAPIBukkitConfig(this).silentLogs(true))
         CommandAPI.onEnable();
 
-        ueapi = UltraEconomy.getAPI()
+        if (server.pluginManager.getPlugin("Econix")!!.isEnabled) {
+            logger.info("Hooking into Econix")
+            econix = Econix.getAPI()
+        } else {
+            logger.info("Econix is disabled")
+            server.pluginManager.disablePlugin(this)
+        }
 
         val settings = ConfigManager.settings
         val playerdata = ConfigManager.playerdata
