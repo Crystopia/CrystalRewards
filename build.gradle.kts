@@ -5,17 +5,17 @@ plugins {
     id("com.gradleup.shadow") version "8.3.5"
     id("xyz.jpenilla.run-paper") version "2.3.1"
     kotlin("plugin.serialization") version "2.0.21"
-    id("io.papermc.paperweight.userdev") version "1.7.5"
     id("com.modrinth.minotaur") version "2.+"
 }
 
 group = "net.crystopia"
-version = "1.0.0"
+version = "1.1.1"
 
 repositories {
     mavenCentral()
-    maven("https://repo.papermc.io/repository/maven-public/") {
-        name = "papermc-repo"
+    maven {
+        name = "papermc"
+        url = uri("https://repo.papermc.io/repository/maven-public/")
     }
     maven("https://oss.sonatype.org/content/groups/public/") {
         name = "sonatype"
@@ -31,7 +31,7 @@ repositories {
 }
 
 dependencies {
-    paperweight.paperDevBundle("1.21.1-R0.1-SNAPSHOT")
+    compileOnly("io.papermc.paper:paper-api:1.21.4-R0.1-SNAPSHOT")
     implementation("org.jetbrains.kotlin:kotlin-stdlib-jdk8")
     implementation("net.kyori:adventure-api:4.17.0")
     implementation("dev.jorel:commandapi-bukkit-kotlin:9.6.0")
