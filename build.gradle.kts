@@ -9,7 +9,7 @@ plugins {
 }
 
 group = "net.crystopia"
-version = "1.1.1"
+version = "1.1.2"
 
 repositories {
     mavenCentral()
@@ -33,11 +33,10 @@ repositories {
 dependencies {
     compileOnly("io.papermc.paper:paper-api:1.21.4-R0.1-SNAPSHOT")
     implementation("org.jetbrains.kotlin:kotlin-stdlib-jdk8")
-    implementation("net.kyori:adventure-api:4.17.0")
-    implementation("dev.jorel:commandapi-bukkit-kotlin:9.6.0")
+    implementation("dev.jorel:commandapi-bukkit-kotlin:9.7.0")
     implementation("org.jetbrains.kotlin:kotlin-stdlib")
-    compileOnly("dev.jorel:commandapi-bukkit-core:9.6.0")
-    implementation("dev.jorel:commandapi-bukkit-shade-mojang-mapped:9.6.0")
+    compileOnly("dev.jorel:commandapi-bukkit-core:9.7.0")
+    implementation("dev.jorel:commandapi-bukkit-shade-mojang-mapped:9.7.0")
     implementation("org.jetbrains.kotlinx:kotlinx-serialization-json:1.7.3")
     // Econix
     compileOnly("me.jesforge:econix:1.2.3")
