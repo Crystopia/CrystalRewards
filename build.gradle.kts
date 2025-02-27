@@ -9,7 +9,7 @@ plugins {
 }
 
 group = "net.crystopia"
-version = "1.1.2"
+version = "1.1.3"
 
 repositories {
     mavenCentral()
@@ -32,9 +32,9 @@ repositories {
 
 dependencies {
     compileOnly("io.papermc.paper:paper-api:1.21.4-R0.1-SNAPSHOT")
-    implementation("org.jetbrains.kotlin:kotlin-stdlib-jdk8")
-    implementation("dev.jorel:commandapi-bukkit-kotlin:9.7.0")
     implementation("org.jetbrains.kotlin:kotlin-stdlib")
+
+    implementation("dev.jorel:commandapi-bukkit-kotlin:9.7.0")
     compileOnly("dev.jorel:commandapi-bukkit-core:9.7.0")
     implementation("dev.jorel:commandapi-bukkit-shade-mojang-mapped:9.7.0")
     implementation("org.jetbrains.kotlinx:kotlinx-serialization-json:1.7.3")
@@ -51,6 +51,9 @@ tasks.build {
     dependsOn("shadowJar")
 }
 tasks.withType<ShadowJar> {
+    manifest {
+        attributes["paperweight-mappings-namespace"] = "mojang"
+    }
     relocate("dev.jorel.commandapi", "net.crystopia.crystalrewards.commandapi")
 }
 tasks.processResources {
@@ -69,11 +72,13 @@ tasks {
 
 // build.gradle
 modrinth {
-    token = System.getenv("MODRINTH_TOKEN") // Remember to have the MODRINTH_TOKEN environment variable set or else this will fail - just make sure it stays private!
+    token =
+        System.getenv("MODRINTH_TOKEN") // Remember to have the MODRINTH_TOKEN environment variable set or else this will fail - just make sure it stays private!
     projectId = "my-project" // This can be the project ID or the slug. Either will work!
     versionNumber = "1.0.0" // You don't need to set this manually. Will fail if Modrinth has this version already
     versionType = "release" // This is the default -- can also be `beta` or `alpha`
-    uploadFile = "build/libs/CrystalRewards-1.0.0-all.jar" // With Loom, this MUST be set to `remapJar` instead of `jar`!
+    uploadFile =
+        "build/libs/CrystalRewards-1.0.0-all.jar" // With Loom, this MUST be set to `remapJar` instead of `jar`!
     gameVersions = listOf("1.21.1") // Must be an array, even with only one version
     loaders = listOf("paper") // Must also be an array - no need to specify this if you're using Loom or ForgeGradle
 
