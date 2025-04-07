@@ -1,10 +1,10 @@
 # Crystal Rewards
 
-**Crystal Rewards** provides an easy way to create and distribute rewards in Minecraft that are perfectly integrated with the **[UltraEconomy](https://ultraeconomy.com/)** plugin. Players can reward with Armostands(For server with resource pack) or with Player Heads.
+**Crystal Rewards** provides an easy way to create and distribute rewards in Minecraft that are perfectly integrated with the **[Econix](https://modrinth.com/plugin/econix)** plugin. Players can reward with Armostands(For server with resource pack) or with Player Heads.
 
 ### Features:
-- **Integration with UltraEconomy**: Rewards are integrated directly into the economy system, allowing players to earn credits in real time.
-- **Reward Types**: Use armorstands when using a server resource pack or if you want to customize them in another cool way. Or playerheads to give your players a small reward.~~~~
+- **Integration with Econix**: Rewards are integrated directly into the economy system, allowing players to earn credits in real time.
+- **Reward Types**: Use armorstands when using a server resource pack or if you want to customize them in another cool way. Or playerheads to give your players a small reward.
 - Easy creation of rewards: With a single command you can create rewards with custom values.
 
 ---
@@ -22,7 +22,7 @@
    - Armor Stands: Armor Stands offer a visually impressive way to display rewards, but you should have special models in the resource pack to make it look nicer or you can position them nicely.
 
 3. **Interaction with rewards**
-   - Players can interact with the “Rewards” by clicking on the Player Head or Armor Stand. The specified amount will be added to the player's UltraEconomy account and the player will receive a customizable message.
+   - Players can interact with the “Rewards” by clicking on the Player Head or Armor Stand. The specified amount will be added to the player's Econix account and the player will receive a customizable message.
 
 4. **Example**
    To create a reward of 500(e.g. $), enter the following command:
@@ -36,7 +36,7 @@
 
 ### Technical details:
 - **Prerequisites**:
-  - [UltraEconomy](https://ultraeconomy.com/wiki) plugin (for economy integration)
+  - [Econix](https://modrinth.com/plugin/econix) plugin (for economy integration)
   - Resource Pack (optional, for user-defined Armor Stand models)
   
 - **Customization**:
