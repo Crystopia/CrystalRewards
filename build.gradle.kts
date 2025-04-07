@@ -21,13 +21,7 @@ repositories {
         name = "sonatype"
     }
     maven(url = "https://repo.codemc.org/repository/maven-public/")
-    maven {
-        url = uri("https://maven.pkg.github.com/Crystopia/Econix")
-        credentials {
-            username = findProperty("USER") as String
-            password = findProperty("TOKEN") as String
-        }
-    }
+    maven("https://repo.crystopia.net/releases")
 }
 
 dependencies {
@@ -39,7 +33,7 @@ dependencies {
     implementation("dev.jorel:commandapi-bukkit-shade-mojang-mapped:9.7.0")
     implementation("org.jetbrains.kotlinx:kotlinx-serialization-json:1.7.3")
     // Econix
-    compileOnly("me.jesforge:econix:1.2.3")
+    compileOnly("me.jesforge:econix:1.2.4")
 }
 
 val targetJavaVersion = 21
